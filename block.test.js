@@ -31,4 +31,29 @@ describe('Block' , ()=>{
 
     });
 
+
+    describe('mineBlock()' , ()=>{
+
+        const lastBlock = Block.genesis() ;    
+        const data = 'mined-data' ;
+        const mineBlock = Block.mineBlock({lastBlock , data }) ;
+
+        it('returns the instance of the block' , ()=>{
+            expect(mineBlock instanceof Block).toBe(true) ;
+        });
+
+        it('set the `lastHash` to be the `hash` of the last block' , ()=>{
+            expect(mineBlock.lastHash).toEqual(lastBlock.hash) ;
+        });
+
+        it('set the `data`' , ()=>{
+            expect(mineBlock.data).toEqual(data) ;
+        });
+
+        it('timestamp is not undefine' , ()=>{
+            expect(mineBlock.timestamp).not.toEqual(undefined) ;
+        });
+
+    });
+
 });
