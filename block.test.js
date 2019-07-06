@@ -1,4 +1,5 @@
 const Block = require('./block') ;
+const cryptoHash = require('./crypto-hash') ;
 const { GENESIS_DATA } = require('./config') ;
 
 describe('Block' , ()=>{
@@ -54,6 +55,9 @@ describe('Block' , ()=>{
             expect(mineBlock.timestamp).not.toEqual(undefined) ;
         });
 
+        it('gives correct hash with timestamp data and last hash', ()=>{
+            expect(mineBlock.hash).toEqual(cryptoHash(mineBlock.timestamp , mineBlock.lastHash , mineBlock.data)) ;
+        });
     });
 
 });
