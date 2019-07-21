@@ -8,13 +8,17 @@ describe('Block' , ()=>{
     const data = 'some-data' ;
     const lastHash = 'any-hash' ;
     const hash = 'hash' ;
-    const block = new Block({timestamp , data , lastHash , hash}) ;
+    const difficulty = 1 ;
+    const nonce = 1 ;
+    const block = new Block({timestamp , data , lastHash , difficulty , nonce , hash}) ;
 
     it('has timestamp , data , lastHash and Hash' , ()=>{
         expect(block.timestamp).toEqual(timestamp) ;
         expect(block.data).toEqual(data) ;
         expect(block.lastHash).toEqual(lastHash) ;
         expect(block.hash).toEqual(hash) ;
+        expect(block.difficulty).toEqual(difficulty) ;
+        expect(block.nonce).toEqual(nonce) ;
     });
 
    
@@ -56,7 +60,11 @@ describe('Block' , ()=>{
         });
 
         it('gives correct hash with timestamp data and last hash', ()=>{
-            expect(mineBlock.hash).toEqual(cryptoHash(mineBlock.timestamp , mineBlock.lastHash , mineBlock.data)) ;
+            expect(mineBlock.hash).toEqual(cryptoHash(mineBlock.timestamp , lastBlock.hash , mineBlock.nonce , mineBlock.difficulty , data)) ;
+        });
+
+        it('set the hash on difficulty criteria' , () => {
+            expect(mineBlock.hash.substring(0 , mineBlock.difficulty)).toEqual('0'.repeat(mineBlock.difficulty)) ;
         });
     });
 
