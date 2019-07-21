@@ -13,6 +13,22 @@ class Blockchain{
         this.chain.push(newBlock) ;
     }
 
+    replaceChain(chain){
+        if(chain.length <= this.chain.length){
+            console.error('New Chain must be longer') ;
+            return ;
+        }
+
+        if(!Blockchain.isValid(chain)){
+            console.error('New Chain must be valid') ;
+            return ;
+        }
+
+        this.chain = chain ;
+        return ;
+    }
+
+
     static isValid(chain){
        if(JSON.stringify(chain[0]) !== JSON.stringify(Block.genesis())) 
         return false ;

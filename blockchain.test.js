@@ -3,7 +3,7 @@ const Blockchain = require('./blockchain') ;
 
 describe('Blockchain', ()=>{
 
-    let blockchain  ;
+    let blockchain , newChain , orignalChain ;
 
     beforeEach(() => {
         blockchain = new Blockchain() ;
@@ -63,4 +63,39 @@ describe('Blockchain', ()=>{
         });
     });
 
+    describe('replaceChain()' , () => {
+
+        beforeEach(() => {
+            blockchain = new Blockchain() ;
+            newChain = new Blockchain() ;
+            orignalChain = blockchain.chain ;
+        });
+        
+        describe('When new chain is not longer' , () => {
+            it('does not replace the chain' , () => {
+                newChain.chain[0] = {new : 'chain'} ;
+                blockchain.replaceChain(newChain.chain) ;
+                expect(blockchain.chain).toEqual(orignalChain) ;
+            });
+        });
+
+        describe('When new chain is longer', () => {
+
+            describe('when new chain is invalid' , () => {
+                it('does not replace the chain' , () => {
+                    newChain.chain[0].lastHash = 'fake-hash' ;
+                    blockchain.replaceChain(newChain.chain) ;
+                    expect(blockchain.chain).toEqual(orignalChain) ;
+                }) ;
+            });
+
+            describe('when new chain is valid' , () => {
+                it('replaces the chain' , () => {
+                    blockchain.replaceChain(newChain.chain) ;
+                    expect(blockchain.chain).toEqual(newChain.chain) ;
+                });
+            });
+        });
+
+    });
 });
