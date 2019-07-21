@@ -7,6 +7,8 @@ describe('Blockchain', ()=>{
 
     beforeEach(() => {
         blockchain = new Blockchain() ;
+        newChain = new Blockchain() ;
+        orignalChain = blockchain.chain ;
     });
 
     it('contains a chain of type array' , ()=>{
@@ -64,12 +66,6 @@ describe('Blockchain', ()=>{
     });
 
     describe('replaceChain()' , () => {
-
-        beforeEach(() => {
-            blockchain = new Blockchain() ;
-            newChain = new Blockchain() ;
-            orignalChain = blockchain.chain ;
-        });
         
         describe('When new chain is not longer' , () => {
             it('does not replace the chain' , () => {
@@ -80,6 +76,12 @@ describe('Blockchain', ()=>{
         });
 
         describe('When new chain is longer', () => {
+
+            beforeEach(() => {
+                newChain.addBlock({data : 'jon'}) ;
+                newChain.addBlock({data : 'sansa'}) ;
+                newChain.addBlock({data : 'arya'}) ;
+            });
 
             describe('when new chain is invalid' , () => {
                 it('does not replace the chain' , () => {
