@@ -41,11 +41,15 @@ class Blockchain{
            const hash = block.hash ;
            const difficulty = block.difficulty ;
            const nonce = block.nonce ;
+           const lastDifficulty = chain[i-1].difficulty ;
            
            if(block.lastHash !== lastHash)
             return false ;
 
            if(cryptoHash(timestamp , lastHash , data , difficulty , nonce) !== hash)
+            return false ; 
+
+           if(difficulty - lastDifficulty > 1)
             return false ; 
        }  
 
