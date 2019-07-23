@@ -40,7 +40,7 @@ class PubSub {
     }
 
     publish({channel , message}){
-        this.pubnub.publish({channel , message}) ;
+        this.pubnub.publish({channel : channel , message : message}) ;
     }
 
     broadcast(){

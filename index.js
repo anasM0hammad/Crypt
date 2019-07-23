@@ -29,10 +29,10 @@ app.post('/api/mine' , (req , res) => {
 
 const syncChains = () => {
 
-    request({ url : `${ROOT_NODE_ADDRESS}/api/block`} , (error , response , body) => {
+    request({ url : `${ROOT_NODE_ADDRESS}/api/blocks`} , (error , response , body) => {
           if(!error && response.statusCode === 200){
               const rootChain = JSON.parse(body) ;
-              console.log(`replace chain with ${rootChain}`) ;
+              console.log(`replace chain with ${body}`) ;
               blockchain.replaceChain(rootChain) ;
           }  
     }) ;
@@ -48,5 +48,7 @@ if(process.env.GENERATE_PEER_PORT === 'true'){
 const PORT = PEER_PORT || DEFAULT_PORT ;
 app.listen(PORT , () => {
     console.log(`Server is running on localhost:${PORT}`) ;
-    syncChains() ;
+    
+    if(PORT !== DEFAULT_PORT)
+     syncChains() ;
 });
