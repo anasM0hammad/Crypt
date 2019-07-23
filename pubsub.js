@@ -8,12 +8,15 @@ const credentials = {
 };
 
 const CHANNEL = {
-    TEST : 'TEST'
+    TEST : 'TEST',
+    BLOCKCHAIN : 'BLOCKCHAIN'
 };
 
+
 class PubSub {
-    constructor(){
+    constructor({ blockchain }){
         this.pubnub = new PubNub(credentials) ;
+        this.blockchain = blockchain ;
 
         this.pubnub.subscribe({channels : Object.values(CHANNEL)}) ;
 
@@ -24,8 +27,13 @@ class PubSub {
         return {
             message : messageObject => {
                 const {channel , message} = messageObject ;
-
                 console.log(`Message Recieved. Channel : ${channel}. Message : ${message}`) ;
+
+                const parsedMessage = JSON.parse(message) ;
+
+                if(channel === CHANNEL.BLOCKCHAIN){
+                    this.blockchain.replaceChain(parsedMessage) ;
+                }
             }
         } ;
     }
@@ -33,10 +41,11 @@ class PubSub {
     publish({channel , message}){
         this.pubnub.publish({channel , message}) ;
     }
+
+    broadcast(){
+        const stringMessage = JSON.stringify(this.blockchain.chain) ;
+        this.publish({channel : CHANNEL.BLOCKCHAIN , message : stringMessage}) ;
+    }
 }
 
-const testPubsub = new PubSub() ;
-
-testPubsub.publish({channel : CHANNEL.TEST ,  message : 'Hello World'}) ;
-
-module.export = PubSub ;
+module.exports = PubSub ;
