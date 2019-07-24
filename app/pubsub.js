@@ -1,5 +1,5 @@
 const PubNub = require('pubnub') ;
-const { PUBLISH_KEY , SUBSCRIBE_KEY , SECRET_KEY} = require('./config') ;
+const { PUBLISH_KEY , SUBSCRIBE_KEY , SECRET_KEY} = require('../config') ;
 
 const credentials = {
     publishKey : PUBLISH_KEY ,
