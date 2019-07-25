@@ -1,12 +1,17 @@
 const { ec } = require('../utli') ;
 const { STARTING_BALANCE } = require('../config') ;
+const cryptoHash = require('../utli/crypto-hash') ;
 
 class Wallet{
     constructor(){
-        const keyPair = ec.genKeyPair() ;
+         this.keyPair = ec.genKeyPair() ;
 
         this.balance = STARTING_BALANCE ;
-        this. publicKey = keyPair.getPublic().encode('hex') ;
+        this. publicKey = this.keyPair.getPublic().encode('hex') ;
+    }
+
+    sign(data){
+        return this.keyPair.sign(cryptoHash(data)) ;
     }
 }
 
