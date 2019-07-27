@@ -135,6 +135,24 @@ it('has an `id` field' , () => {
         it('re-sign the sender input signature' , () => {
             expect(transaction.input.signature).not.toEqual(orignalSignature) ;
         });
+
+        describe('another update for same recipient' , () => {
+
+            let addedAmount ;
+            beforeEach(() => {
+                addedAmount = 80 ;
+                transaction.update({senderWallet , amount : addedAmount , recipient : nextRecipient}) ;
+            });
+    
+            it('adds the amount in same recipient' , () =>{
+                expect(transaction.outputMap[nextRecipient]).toEqual(addedAmount + nextAmount) ;
+            });
+    
+            it('subtracts the amount from sender' , () => {
+                expect(transaction.outputMap[senderWallet.publicKey]).toEqual(orignalSenderOutput - nextAmount - addedAmount) ;
+            });
+        });    
+
     });
  });
 
