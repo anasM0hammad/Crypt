@@ -4,6 +4,10 @@ class TransactionPool{
         this.transactionMap = {} ;
     }
 
+    setMap(transactionMap){
+        this.transactionMap = transactionMap ;
+    }
+
     setTransaction(transaction){
         this.transactionMap[transaction.id] = transaction ;
     }
