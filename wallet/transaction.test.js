@@ -1,6 +1,7 @@
 const Transaction = require('./transaction') ;
 const Wallet = require('./index') ;
 const { verifySignature } = require('../util') ;
+const { MINER_REWARD , REWARD_INPUT } = require('../config') ;
 
 describe('Transaction' , () => {
 
@@ -154,6 +155,24 @@ it('has an `id` field' , () => {
         });    
 
     });
+
  });
 
+    describe('rewardTransaction()' , () => {
+
+        let rewardTransaction , minerWallet ;
+
+        beforeEach(() => {
+            minerWallet = new Wallet() ;
+            rewardTransaction = Transaction.rewardTransaction({ minerWallet }) ;
+        }) ;
+
+        it('creates the miner input' , () => {
+            expect(rewardTransaction.input).toEqual(REWARD_INPUT) ;
+        }) ;
+
+        it('gives the mining reward' , () => {
+            expect(rewardTransaction.outputMap[minerWallet.publicKey]).toEqual(MINER_REWARD) ;
+        });
+    });
 }) ;
